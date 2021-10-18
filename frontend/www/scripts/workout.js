@@ -41,7 +41,19 @@ async function retrieveWorkout(id) {
             let pathArray = file.file.split("/");
             a.text = pathArray[pathArray.length - 1];
             a.className = "me-2";
+            let img
+            let isImage = ["jpg", "png", "gif", "jpeg", "JPG", "PNG", "GIF", "JPEG"].includes(a.text.split(".")[1]);
+            if(isImage){ 
+                img = document.createElement("img");
+                img.src = file.file;
+                img.width = "500";
+            }
+
             filesDiv.appendChild(a);
+
+            if(isImage){
+                filesDiv.appendChild(img);
+            }
         }
 
         // create exercises
