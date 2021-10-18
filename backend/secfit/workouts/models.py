@@ -76,11 +76,17 @@ class Exercise(models.Model):
     Attributes:
         name:        Name of the exercise type
         description: Description of the exercise type
+        duration:    Duration of one unit of the exercise
+        calories:    Calories spent per minute
+        muscleGroup: What major muscle group is used in the exercise
         unit:        Name of the unit for the exercise type (e.g., reps, seconds)
     """
 
     name = models.CharField(max_length=100)
     description = models.TextField()
+    duration = models.IntegerField(default=0)
+    calories = models.IntegerField(default=0)
+    muscleGroup = models.TextField(default="Legs")
     unit = models.CharField(max_length=50)
 
     def __str__(self):
