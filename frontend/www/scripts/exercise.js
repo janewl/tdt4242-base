@@ -6,14 +6,29 @@ let oldFormData;
 
 class MuscleGroup { 
     constructor(type) {
-        this.type = type;
+        this.isValidType = false;
+        this.validTypes = ["Legs", "Chest", "Back", "Arms", "Abdomen", "Shoulders"]
+
+        this.type = this.validTypes.includes(type) ? type : undefined;
     };
 
     setMuscleGroupType = (newType) => {
-        this.type = newType
+        this.isValidType = false;
+        
+        if(this.validTypes.includes(newType)){
+            this.isValidType = true;
+            this.type = newType;
+        }
+        else{
+            alert("Invalid muscle group!");
+        }
+
     };
     
-    getMuscleGroupType = () => this.type;
+    getMuscleGroupType = () => {
+        console.log(this.type, "SWIOEFIWEUFH")
+        return this.type;
+    }
 }
 
 function handleCancelButtonDuringEdit() {

@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "workouts.apps.WorkoutsConfig",
+    "meals.apps.MealsConfig",
     "users.apps.UsersConfig",
     "comments.apps.CommentsConfig",
     "corsheaders",
