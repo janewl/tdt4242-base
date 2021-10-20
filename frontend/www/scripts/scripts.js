@@ -22,6 +22,8 @@ function updateNavBar() {
     makeNavLinkActive("nav-mycoach")
   } else if (window.location.pathname == "/myathletes.html") {
     makeNavLinkActive("nav-myathletes");
+  } else if (window.location.pathname == "/meals.html") {
+    makeNavLinkActive("nav-myathletes");
   }
 
   if (isUserAuthenticated()) {
@@ -32,6 +34,7 @@ function updateNavBar() {
     document.querySelector('a[href="mycoach.html"').classList.remove("hide");
     document.querySelector('a[href="exercises.html"').classList.remove("hide");
     document.querySelector('a[href="myathletes.html"').classList.remove("hide");
+    document.querySelector('a[href="meals.html"').classList.remove("hide");
   } else {
     document.getElementById("btn-login-nav").classList.remove("hide");
     document.getElementById("btn-register").classList.remove("hide");
