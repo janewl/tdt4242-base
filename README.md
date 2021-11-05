@@ -132,9 +132,10 @@ WARNING: Do not perform penetration testing on Heroku applications
 
 Continuous integration will build the code pushed to master and push it to your heroku app so you get a live version of your latest code by just pushing your code to GitLab.
 
-1. Create a heroku account and an app for both the frontend and the backend.
-2. Select buildpacks for the two apps. The backend uses Python while the frontend uses node.js.
-   * Settings > Buildpacks > Add buildpack
+1. Make sure you have the right python version (3.8.10) and have all other requirements installed.
+2. Create a heroku account and an app for both the frontend and the backend. (Choose Europe as your region)
+3. Select buildpacks for the two apps. The backend uses Python while the frontend uses nodejs.
+   * Heroku > Settings > Buildpacks  > Add buildpack
    * Both applications need the buildpack https://github.com/heroku/heroku-buildpack-multi-procfile.git too.
 3. Set the project in the .gitlab-cs.yml file by replacing `<Your-herokuproject-name>` with the name of the Heroku app you created
 `- dpl --provider=heroku --app=<Your-herokuproject-name> --api-key=$HEROKU_STAGING_API_KEY`
@@ -150,13 +151,18 @@ Continuous integration will build the code pushed to master and push it to your 
 8. Set variables for the frontend on heroku. Settings > Config vars > Reveal vars. Insert the URL for your backend app.
    * `BACKEND_HOST` = `https://<SECFIT_BACKEND>.herokuapp.com`
    * `PROCFILE` = `frontend/Procfile`
-9. Push the repository to both of the heroku applications https://devcenter.heroku.com/articles/git 
-   * git push `<backend-repository>` HEAD:master
-   * git push `<frontend-repository>` HEAD:master
-10. On GitLab go to CI / CD in the repository menu and select `Run Pipeline` if it has not already started. When both stages complete the app should be available on heroku. Staging will fail from timeout as Heroku does not give the propper response to end the job. But the log should state that the app was deployed.
-11. Setup the applications database.
-   * Install heroku CLI by following: https://devcenter.heroku.com/articles/heroku-cli
-   * Log in to the Heroku CLI by entering `heroku login`. This opens a webbrowser and you accept the login request.
+9. Push the repository to both of the heroku applications 
+   * Follow the guides on https://devcenter.heroku.com/articles/git#for-an-existing-heroku-app 
+      * Make sure you install the heroku CLI https://devcenter.heroku.com/articles/heroku-cli
+      * Make sure you log in to the heroku CLI ($ heroku login)
+      * Make sure you create a remote for the frontend and backend apps (Example: heroku git:remote -a secfit-group01-v22-frontend)
+      * Push your code to both apps ($ git push https://git.heroku.com/<YOUR-HEROKU-APP>.git)
+         * Example: $ git push https://git.heroku.com/secfit-group01-v22-frontend.git master
+         * Make sure you use `master` and not `main` as your target branch
+10. Setup a dyno for you backend
+11. On GitLab go to CI / CD in the repository menu and select `Run Pipeline` if it has not already started. When both stages complete the app should be available on heroku. The log should state that the app was deployed.
+12. Setup the applications database.
+   * Log in to the Heroku CLI by entering `heroku login` if you have not alreaddy done this. This opens a webbrowser and you accept the login request.
    * Migrate database by entering
    `heroku run python backend/secfit/manage.py migrate -a <heroku-app-name>`. `Heroku run` will run the folowing command on your heroku instance. Remember to replace `<heroku-app-name>` with your app name
    * and create an admin account by running
