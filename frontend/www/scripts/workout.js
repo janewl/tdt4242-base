@@ -3,6 +3,7 @@ let okWorkoutButton;
 let deleteWorkoutButton;
 let editWorkoutButton;
 let postCommentButton;
+let galleryButton;
 
 async function retrieveWorkout(id) {  
     let workoutData = null;
@@ -41,19 +42,9 @@ async function retrieveWorkout(id) {
             let pathArray = file.file.split("/");
             a.text = pathArray[pathArray.length - 1];
             a.className = "me-2";
-            let img
-            let isImage = ["jpg", "png", "gif", "jpeg", "JPG", "PNG", "GIF", "JPEG"].includes(a.text.split(".")[1]);
-            if(isImage){ 
-                img = document.createElement("img");
-                img.src = file.file;
-                img.width = "500";
-            }
 
             filesDiv.appendChild(a);
 
-            if(isImage){
-                filesDiv.appendChild(img);
-            }
         }
 
         // create exercises
@@ -126,6 +117,7 @@ function handleEditWorkoutButtonClick() {
     document.querySelector("#inputOwner").readOnly = true;  // owner field should still be readonly 
 
     editWorkoutButton.className += " hide";
+    galleryButton.className += " hide";
     okWorkoutButton.className = okWorkoutButton.className.replace(" hide", "");
     cancelWorkoutButton.className = cancelWorkoutButton.className.replace(" hide", "");
     deleteWorkoutButton.className = deleteWorkoutButton.className.replace(" hide", "");
@@ -134,6 +126,13 @@ function handleEditWorkoutButtonClick() {
 
     cancelWorkoutButton.addEventListener("click", handleCancelDuringWorkoutEdit);
 
+}
+
+function handleGalleryButtonClick() {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const id = urlParams.get('id');
+    window.location.replace(`gallery.html?id=${id}`);
 }
 
 async function deleteWorkout(id) {
@@ -321,6 +320,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     okWorkoutButton = document.querySelector("#btn-ok-workout");
     deleteWorkoutButton = document.querySelector("#btn-delete-workout");
     editWorkoutButton = document.querySelector("#btn-edit-workout");
+    galleryButton = document.querySelector("#btn-gallery-workout");
     let postCommentButton = document.querySelector("#post-comment");
     let divCommentRow = document.querySelector("#div-comment-row");
     let buttonAddExercise = document.querySelector("#btn-add-exercise");
@@ -328,6 +328,9 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     buttonAddExercise.addEventListener("click", createBlankExercise);
     buttonRemoveExercise.addEventListener("click", removeExercise);
+
+    galleryButton.addEventListener("click", handleGalleryButtonClick);
+
 
     const urlParams = new URLSearchParams(window.location.search);
     let currentUser = await getCurrentUser();
@@ -356,6 +359,8 @@ window.addEventListener("DOMContentLoaded", async () => {
         cancelWorkoutButton.className = cancelWorkoutButton.className.replace(" hide", "");
         buttonAddExercise.className = buttonAddExercise.className.replace(" hide", "");
         buttonRemoveExercise.className = buttonRemoveExercise.className.replace(" hide", "");
+        galleryButton.className += " hide";
+
 
         okWorkoutButton.addEventListener("click", async () => await createWorkout());
         cancelWorkoutButton.addEventListener("click", handleCancelDuringWorkoutCreate);
