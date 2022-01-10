@@ -17,13 +17,25 @@ Download: https://innsida.ntnu.no/wiki/-/wiki/English/Microsoft+Windows+10
 
 ### Install:
 
-$ git clone https://gitlab.stud.idi.ntnu.no/kyleo/secfit.git \
+$ git clone https://gitlab.stud.idi.ntnu.no/<your username>/tdt4242-base.git \
 $ cd secfit/
 
 ### Run:
 
 $ docker-compose up --build \
 Hosts the application on http://localhost:9090 with default settings
+
+You might have to run Docker with administrator privileges to get it to run properly:
+
+#### Windows:
+Either open the terminal as administrator (Windows key -> Search "cmd" -> "Run as administrator")
+
+or
+
+$ runas /user/Administrator "docker-compose up --build"
+
+#### Unix/OSX:
+$ sudo docker-compose up --build
 
 
 ## Technology
