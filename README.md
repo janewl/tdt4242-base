@@ -17,7 +17,7 @@ Download: https://innsida.ntnu.no/wiki/-/wiki/English/Microsoft+Windows+10
 
 ### Install:
 
-$ git clone https://gitlab.stud.idi.ntnu.no/<your username>/tdt4242-base.git \
+$ git clone https://gitlab.stud.idi.ntnu.no/<your_username>/tdt4242-base.git \
 $ cd secfit/
 
 ### Run:
