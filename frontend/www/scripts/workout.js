@@ -167,6 +167,7 @@ function generateWorkoutForm() {
 
     submitForm.append("name", formData.get('name'));
     let date = new Date(formData.get('date')).toISOString();
+    console.log('date in ISO: '+ date);
     submitForm.append("date", date);
     submitForm.append("notes", formData.get("notes"));
     submitForm.append("visibility", formData.get("visibility"));
@@ -194,16 +195,19 @@ function generateWorkoutForm() {
 
 async function createWorkout() {
     let submitForm = generateWorkoutForm();
-
+    console.log("submit:");
+    console.log(submitForm.values);
     let response = await sendRequest("POST", `${HOST}/api/workouts/`, submitForm, "");
+    console.log("await done");
+    console.log('response', response);
 
-    if (response.ok) {
+    /* if (response.ok) {
         window.location.replace("workouts.html");
     } else {
         let data = await response.json();
         let alert = createAlert("Could not create new workout!", data);
         document.body.prepend(alert);
-    }
+    } */
 }
 
 function handleCancelDuringWorkoutCreate() {

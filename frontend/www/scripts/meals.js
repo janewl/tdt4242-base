@@ -37,6 +37,7 @@ function createMeal() {
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
+    console.log('halla');
     let createButton = document.querySelector("#btn-create-meal");
     createButton.addEventListener("click", createMeal);
     let ordering = "-date";
