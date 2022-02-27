@@ -45,7 +45,7 @@ ALLOWED_HOSTS = [
     "10." + groupid + ".0.4",
     "molde.idi.ntnu.no",
     "10.0.2.2",
-    # ADD HEROKU URL HERE
+    "secret-frontend.herokuapp.com",
 ]
 
 # Application definition
