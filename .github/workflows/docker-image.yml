@@ -1,0 +1,27 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      
+    - name: Build, Push and Deploy to Heroku #set the whatever name you want to this step
+      id: heroku
+      uses: snithyanantham/docker-compose-multiple-apps-heroku-deploy@v1.0  # use the latest version of the action
+      with:
+        email: ${{ secrets.HEROKU_EMAIL }} # your heroku email
+        api_key: ${{ secrets.HEROKU_API_KEY }} # your  heroku api key
+        docker_compose_file: './docker-compose.yml' # set the path to the folder where the docker-compose file is located
+        heroku_apps: '[{"imagename":"nginx_group_90","appname":"secret-frontend","apptype":"web"},{"imagename":"django_group_90","appname":"secfit-backend-10","apptype":"web"}]' # List of Docker Image name, Heroku app and Heroku app type
