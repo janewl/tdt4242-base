@@ -42,16 +42,6 @@ urlpatterns = format_suffix_patterns(
             views.WorkoutFileDetail.as_view(),
             name="workoutfile-detail",
         ),
-        path(
-            "api/statistics/", 
-            views.StatisticsView.as_view(), 
-            name="statistics"
-            ),
-         path(
-            "api/statistics/<int:pk>/", 
-            views.StatisticsView.as_view(), 
-            name="statistics-detail"
-            ),
         path("", include("users.urls")),
         path("", include("comments.urls")),
         path("api/auth/", include("rest_framework.urls")),
