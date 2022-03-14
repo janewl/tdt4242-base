@@ -22,10 +22,8 @@ from workouts.permissions import (
     IsWorkoutPublic,
 )
 from workouts.mixins import CreateListModelMixin
-from workouts.models import Workout, Exercise, ExerciseInstance, WorkoutFile
-from workouts.serializers import WorkoutSerializer, ExerciseSerializer
-from workouts.serializers import RememberMeSerializer
-from workouts.serializers import ExerciseInstanceSerializer, WorkoutFileSerializer
+from workouts.models import Workout, Exercise, ExerciseInstance, WorkoutFile, Statistics
+from workouts.serializers import WorkoutSerializer, ExerciseSerializer, RememberMeSerializer, ExerciseInstanceSerializer, WorkoutFileSerializer, StatisticsSerializer
 from django.core.exceptions import PermissionDenied
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
@@ -33,7 +31,6 @@ import json
 from collections import namedtuple
 import base64, pickle
 from django.core.signing import Signer
-
 
 @api_view(["GET"])
 def api_root(request, format=None):
@@ -50,9 +47,9 @@ def api_root(request, format=None):
             ),
             "comments": reverse("comment-list", request=request, format=format),
             "likes": reverse("like-list", request=request, format=format),
+            "statistics": reverse("statistics", request=request, format=format)
         }
     )
-
 
 # Allow users to save a persistent session in their browser
 class RememberMe(
@@ -340,3 +337,31 @@ class WorkoutFileDetail(
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+class StatisticsView(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    generics.GenericAPIView,
+):
+    serializer_class = StatisticsSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = Statistics.objects.none()
+        if self.request.user:
+            queryset = Statistics.objects.filter(owner=self.request.user)
+        return queryset
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+
+
+
