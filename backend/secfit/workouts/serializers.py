@@ -2,7 +2,7 @@
 """
 from rest_framework import serializers
 from rest_framework.serializers import HyperlinkedRelatedField
-from workouts.models import Workout, Exercise, ExerciseInstance, WorkoutFile, RememberMe, Statistics
+from workouts.models import Workout, Exercise, ExerciseInstance, WorkoutFile, RememberMe
 
 
 class ExerciseInstanceSerializer(serializers.HyperlinkedModelSerializer):
@@ -228,9 +228,3 @@ class RememberMeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = RememberMe
         fields = ["remember_me"]
-
-class StatisticsSerializer(serializers.HyperlinkedModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
-    class Meta:
-        model = Statistics
-        fields = ["id", "owner", "date"]
