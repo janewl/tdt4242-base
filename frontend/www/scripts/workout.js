@@ -195,11 +195,7 @@ function generateWorkoutForm() {
 
 async function createWorkout() {
     let submitForm = generateWorkoutForm();
-    console.log("submit:");
-    console.log(submitForm.values);
     let response = await sendRequest("POST", `${HOST}/api/workouts/`, submitForm, "");
-    console.log("await done");
-    console.log('response', response);
 
     /* if (response.ok) {
         window.location.replace("workouts.html");
@@ -319,21 +315,30 @@ async function retrieveComments(workoutid) {
     }
 }
 
+async function addUserWorkoutStatistics(){
+    const dateCompleted = new Date();
+    let response = await sendRequest("POST", `${HOST}/api/statistics/`, {date: dateCompleted});
+    if(response.ok){
+        console.log('success!')
+    }
+}
+
 window.addEventListener("DOMContentLoaded", async () => {
     cancelWorkoutButton = document.querySelector("#btn-cancel-workout");
     okWorkoutButton = document.querySelector("#btn-ok-workout");
     deleteWorkoutButton = document.querySelector("#btn-delete-workout");
     editWorkoutButton = document.querySelector("#btn-edit-workout");
     galleryButton = document.querySelector("#btn-gallery-workout");
+    let completeButton = document.querySelector("#btn-complete-workout");
     let postCommentButton = document.querySelector("#post-comment");
     let divCommentRow = document.querySelector("#div-comment-row");
     let buttonAddExercise = document.querySelector("#btn-add-exercise");
     let buttonRemoveExercise = document.querySelector("#btn-remove-exercise");
-
     buttonAddExercise.addEventListener("click", createBlankExercise);
     buttonRemoveExercise.addEventListener("click", removeExercise);
 
     galleryButton.addEventListener("click", handleGalleryButtonClick);
+    completeButton.addEventListener("click", addUserWorkoutStatistics);
 
 
     const urlParams = new URLSearchParams(window.location.search);
